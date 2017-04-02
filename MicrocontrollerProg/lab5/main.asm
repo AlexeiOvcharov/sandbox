@@ -1,5 +1,5 @@
 ; Description
-; Port 0-2: 7 - segments indicator
+; Port 0-3: 7 - segments indicator
 ; Port 3: button1, button2, ADC (Analog-to-digital converter)
 ; Button1 - x*2, Button2 - send x to output.
 ; ADC - 6 bit (0 - 63), port p3.[2 - 8]
@@ -105,6 +105,6 @@ MATH:
 	mov B, #2
 	mul AB
 
-	mov R3, A;
+	mov R3, A
 	jmp VIEW_DATA
 end
