@@ -1,0 +1,270 @@
+\documentclass[a4paper, 11pt]{article}
+
+% Set encoding and language
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english, russian]{babel}
+
+% Set paper geometry
+\usepackage[top=2cm, bottom=2cm, left=2cm, right=2cm]{geometry}
+
+% Set package for include images e.t.c
+\usepackage{graphicx}
+
+% Set package based on tikz for draw graph
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.5}
+
+% Set package for draw table from .dat file 
+\usepackage{pgfplotstable}
+% recommended:
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{colortbl}
+\usepackage{longtable}
+
+% set thousands separator from "," to space 
+\pgfkeys{/pgf/number format/.cd,
+    set thousands separator={\text{ }}
+}
+
+% Include \text command
+\usepackage{amsmath}
+
+\usepackage{float}
+\usepackage{array}
+
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\raggedcenter\arraybackslash}p{#1}}
+
+\begin{document}
+
+\input{/home/senserlex/homeworks/titlepage/title.tex}
+
+\section*{Передаточная характеристика холостого хода тахогенератора постоянного тока.}
+На рисунке 1 представлен график зависимости $U_\text{вых}(n)$. Как видно соблюдается линейная зависимость между угловой скоростью и выходным напряжением тахогенератора.
+
+\begin{minipage}[c]{0.25\textwidth}
+\begin{table}[H]
+\pgfplotstabletypeset[
+    columns/n/.style = {
+        column name = {$n\text{, об/мин}$},
+    },
+    columns/u/.style = {
+        column name = {$u_{\text{вых}}\text{, в}$},
+    },
+    empty cells with={--}, % replace empty cells with ’--’
+    every head row/.style={before row=\toprule,after row=\midrule},
+    every last row/.style={after row=\bottomrule}
+]{../src/data1.dat}
+\caption{Данные при R = 0 Ом}
+\end{table}
+\end{minipage}
+\begin{minipage}[c]{0.7\textwidth}
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+            width = 11cm, height = 7cm,
+            xlabel = {$n\text{, об/мин}$},
+            ylabel = {$U_{\text{вых}}\text{, В}$},
+            ymin = 0, ymax = 20,
+            minor y tick num = 1,
+            ymajorgrids=true,
+            xmajorgrids=true,
+            grid style=dashed,
+        ]
+            \addplot table {../src/data1.dat};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Передаточная характеристика.}
+\end{figure}
+\end{minipage}
+
+
+\section*{Передаточная характеристика холостого хода тахогенератора постоянного тока при нагрузке.}
+
+Далее в таблице 2 изложены данные по опытам при изменении сопротивления нагрузки $R_\text{н}$ тахогенератора. А на рисунке 2 нарисованы графики, соответствующие данным в этой таблице.
+
+\begin{figure}[h!]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+            width = 17cm, height = 10cm,
+            xlabel = {$n\text{, об/мин}$},
+            ylabel = {$U_{\text{вых}}$, В},
+            ymin = 0, ymax = 20,
+            minor y tick num = 1,
+            ymajorgrids = true,
+            xmajorgrids = true,
+            legend pos = north west,
+        ]
+            \addplot table {../src/data1.dat};
+            \addplot table {../src/data2.dat};
+            \addplot table {../src/data3.dat};
+            \addplot table {../src/data4.dat};
+            \addplot table {../src/data5.dat};
+            \addplot table {../src/data6.dat};
+            \addplot table {../src/data7.dat};
+            \addplot table {../src/data8.dat};
+
+            \legend{$R = 0$ Ом,$R = 99.5$ Ом,$R = 496$ Ом,$R = 998$ Ом,$R = 2930$ Ом,$R = 5000$ Ом,$R = 7000$ Ом, $R = 10000$ Ом}
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Передаточная характеристика при различной нагрузке.}
+\end{figure}
+
+\newpage
+
+\begin{table}[h!]
+\hspace{-0.75cm}
+\pgfplotstabletypeset[
+    every head row/.style={
+        before row={%
+        \hline
+        \multicolumn{2}{| c |}{R = 99.5} & \multicolumn{2}{ c |}{R = 469} & \multicolumn{2}{ c |}{R = 998} & \multicolumn{2}{ c }{R = 2930} & \multicolumn{2}{| c |}{R = 5000} & \multicolumn{2}{ c |}{R = 7000} & \multicolumn{2}{ c |}{R = 10000} \\
+        \hline
+        },
+        after row=\hline,
+    },
+    every last row/.style={
+        after row=\hline},
+    columns/n2/.style = {
+        column name = {$n$},
+        string replace={0}{},
+        column type = {| c },
+    },
+    columns/U2/.style = {
+        column name = {$U$},
+        string replace={0}{},
+        column type = {| c },
+    },
+    columns/n3/.style = {
+        column name = {$n$},
+        string replace={0}{},
+        column type = {| c },
+    },
+    columns/U3/.style = {
+        column name = {$U$},
+        string replace={0}{},
+        column type = {| c },
+    },
+    columns/n4/.style = {
+        column name = {$n$},
+        string replace={0}{},
+        column type = {| c },
+    },
+    columns/U4/.style = {
+        column name = {$U$},
+        string replace={0}{},
+        column type = {| c },
+    },
+    columns/n5/.style = {
+        column name = {$n$},
+        string replace={0}{},
+        column type = {| c },
+    },
+    columns/U5/.style = {
+        column name = {$U$},
+        string replace={0}{},
+        column type = {| c },
+    },
+    columns/n6/.style = {
+        column name = {$n$},
+        string replace={0}{},
+        column type = {| c },
+    },
+    columns/U6/.style = {
+        column name = {$U$},
+        string replace={0}{},
+        column type = {| c },
+    },
+    columns/n7/.style = {
+        column name = {$n$},
+        string replace={0}{},
+        column type = {| c },
+    },
+    columns/U7/.style = {
+        column name = {$U$},
+        string replace={0}{},
+        column type = {| c },
+    },
+    columns/n8/.style = {
+        column name = {$n$},
+        string replace={0}{},
+        column type = {| c },
+    },
+    columns/U8/.style = {
+        column name = {$U$},
+        string replace={0}{},
+        column type = {| c |},
+    },
+    empty cells with={--}, % replace empty cells with ’--’
+]{../src/res.dat}
+\caption{Исходные данные при различной нагрузке.}
+\end{table}
+
+\section*{Определение частоты вращения при помощи инкрементального энкодера.}
+
+\begin{table} [h!]
+	\centering
+	\begin{tabular} {|p{3cm}|p{4cm}|p{3cm}|p{5cm}|}
+		\hline
+		Частота вращения по тахометру & Частота появления импульсов энкодера & Разрешающая способность & Частота вращения ротора двигателя вычисленная по энкодеру \\
+		об/мин & Гц & отсчетов/оборот & об/мин \\ \hline
+		500 & 15.25 & 1.83 & 500 \\
+		420 & 14.3 & 2.0428571 & 420 \\
+		350 & 12.25 & 2.1 & 350 \\
+		300 & 10.5 & 2.1 & 300 \\
+		240 & 8 & 2 & 240 \\ \hline
+	\end{tabular}
+	\caption{Данные с фазы A энкодера.}
+\end{table}
+
+\begin{table} [h!]
+	\begin{tabular} {|p{3cm}|p{4cm}|p{3cm}|p{5cm}|}
+		\hline
+		Частота вращения по тахометру & Частота появления импульсов энкодера & Разрешающая способность & Частота вращения ротора двигателя вычисленная по энкодеру \\
+		об/мин & Гц & отсчетов/оборот & об/мин \\ \hline
+		545 & 18.7 & 2.059 & 545 \\
+		500 & 17.5 & 2.1 & 500 \\ 
+		370 & 12.6 & 2.043 & 370 \\
+		330 & 11.3 & 2.055 & 330 \\
+		230 & 8 & 2.087 & 230 \\ \hline
+	\end{tabular}
+	\caption{Данные с фазы B энкодера.}
+\end{table}
+
+Разрешающая способность была найдена по следующей формуле (1). Здесь $\n$ - частота вращения по тахометру, $\nu$ - частота появления импульсов.
+\begin{equation}
+	r = \frac{\nu60}{n}
+\end{equation}
+По полученным данным можно сделать вывод, что разрешающая способность данного энкодера равна 2.
+\newpage
+\section*{Сравнение полученных характеристик с паспортными данными.}
+Сравним полученную характеристику при R = 10000 Ом с характеристикой по паспортным данным. Как видно из рисунка 3 крутизна характеристики эспериментальных данных $k_\text{э} = 6.6 \frac{\text{мВ}}{\text{об/мин}}$ и паспортных $k = 4 \frac{\text{мВ}}{\text{об/мин}}$ отличаются.
+\begin{figure}[h!]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+            width = 17cm, height = 7cm,
+            ymin = 0, ymax = 20,
+            xmin = 0, xmax = 3000,
+            ymajorgrids = true,
+            grid style = dashed,
+            legend pos = north west,
+        ]
+            \addplot table {../src/data8.dat};
+            \addplot [red, domain=200:2800]{0.004*x};
+            \legend{Экспериментальная, Паспортные данные}
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Сравнительные данные.}
+\end{figure}
+
+
+\section*{Выводы.}
+В данной работе мы ознакомились с тахогенератором ТГП-3, получили его характеристику при нулевой и ненулевой нагрузке. Как видно из графиков 1, 2 и 3 - нелинейностей характеристик не наблюдается, поскольку угловая скорость тахогенератора не достасточно высока. \par
+Также мы рассчитали разрешающую способность инкрементального энкодера E50S8.
+\end{document}

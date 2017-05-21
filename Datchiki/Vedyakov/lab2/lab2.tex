@@ -1,0 +1,432 @@
+\documentclass[a4paper, 11pt]{article}
+
+% Set encoding and language
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english, russian]{babel}
+
+% Set paper geometry
+\usepackage[top=2cm, bottom=2cm, left=2cm, right=2cm]{geometry}
+
+% Set package for include images e.t.c
+\usepackage{graphicx}
+
+% Set package based on tikz for draw graph
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.5}
+
+% Set package for draw table from .dat file 
+\usepackage{pgfplotstable}
+\usepackage{threeparttable}
+% recommended:
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{colortbl}
+\usepackage{longtable}
+
+\pgfplotstableset{
+    every head row/.style = {after row = \midrule, before row = \toprule},
+    every last row/.style = {after row = \bottomrule},
+}
+
+% Include \text command
+\usepackage{amsmath}
+
+\usepackage{indentfirst}
+
+\usepackage{float}
+\usepackage{array}
+
+%Change label separator
+\usepackage{caption}
+\captionsetup[table]{labelformat=simple, labelsep = endash, justification = raggedright, singlelinecheck = off}
+\captionsetup[figure]{labelformat=simple, labelsep = endash, name = Рисунок}
+
+\usepackage{subcaption}
+
+\begin{document}
+
+\input{/home/senserlex/homeworks/titlepage/title.tex}
+
+\section*{Инкрементальный оптический энкодер}
+
+\noindent
+\begin{minipage}[t] {0.55\textwidth}
+    \begin{figure}[H]
+        \begin{tikzpicture}
+            \begin{axis}[
+                xlabel = {$\alpha$, град.},
+                ylabel = {$N$, число импульсов},
+                grid style = {dashed},
+                grid = major,
+                width = 0.9\textwidth,
+                legend pos = north west,
+            ]
+                \addplot[very thick, blue, mark = *] table[x = deg, y = n1] {data/encoder.dat};
+                \addplot table[x = deg, y = n2] {data/encoder.dat};
+                \legend{По часовой, Против часовой}
+            \end{axis}
+        \end{tikzpicture}
+        \caption{Передаточная характеристика}
+    \end{figure}
+\end{minipage}
+\begin{minipage}[t] {0.4\textwidth}
+    \begin{table}[H]
+        \centering
+        \begin{threeparttable}
+            \pgfplotstabletypeset[
+                columns/deg/.style = {column name = {$\alpha$}},
+                columns/n1/.style = {column name = {N, по часовой}},
+                columns/n2/.style = {column name = {N, против часовой}},
+            ]{data/encoder.dat}
+        \caption{Исходные данные}
+        \end{threeparttable}
+    \end{table}
+\end{minipage}
+
+\vspace{0.5cm}
+Как видно из рисунка 1, харастеристика при вращении по часовой и против не изменяется. Разрешающая способность датчика можно определить: 
+\begin{equation}
+    N_0 = 360\frac{\sum_{i = 1}^n{\frac{N_i}{\alpha_i}}}{n} = 1001.2 \text{ импульсов/оборот}
+\end{equation}
+
+\section*{Вращающийся трансформатор}
+\subsection*{Характеристика синусной обмотки при нагрузке}
+Ниже представлены графики, полученные в результате не сложных вычислений, а также с синусной обмотки ВТ. Графики 2 и 3, были построены на основе таблиц 2 и 3.
+
+\begin{figure} [h!]
+    \begin{subfigure} {0.5\textwidth}
+        \begin{tikzpicture}    
+            \begin{axis}[
+                xmin = 0, xmax = 360,
+                width = 0.9\textwidth,
+                xlabel = {$\alpha$, град},
+                ylabel = {Вольты},
+                legend pos = {south west},
+            ]
+                \addplot table[x = deg, y = Ea] {data/Sin303.dat};
+                \addplot table[x = deg, y = Ea0] {data/Sin303.dat};
+                \addplot table[x = deg, y = deltaA] {data/Sin303.dat};
+
+                \legend{$E_A$, $E_{A0}$, $\Delta E_A$}
+            \end{axis}
+        \end{tikzpicture}
+    \end{subfigure}
+    \begin{subfigure} {0.5\textwidth}
+        \begin{tikzpicture}    
+            \begin{axis}[
+                xmin = 0, xmax = 360,
+                width = 0.9\textwidth,
+                xlabel = {$\alpha$, град},
+                ylabel = {$\Delta E_A\%$, \%},
+                legend pos = {south west},
+            ]
+                \addplot table[x = deg, y = deltaAproc] {data/Sin303.dat};
+            \end{axis}
+        \end{tikzpicture}
+    \end{subfigure}
+    \caption{Характеристики синусной обмотки при нагрузке $R = 300$ Ом}
+\end{figure}
+
+\begin{figure} [h!]
+    \begin{subfigure} {0.5\textwidth}
+        \begin{tikzpicture}    
+            \begin{axis}[
+                xmin = 0, xmax = 360,
+                width = 0.9\textwidth,
+                xlabel = {$\alpha$, град},
+                ylabel = {Вольты},
+                legend pos = {south west},
+            ]
+                \addplot table[x = deg, y = Ea] {data/Sin500.dat};
+                \addplot table[x = deg, y = Ea0] {data/Sin500.dat};
+                \addplot table[x = deg, y = deltaA] {data/Sin500.dat};
+
+                \legend{$E_A$, $E_{A0}$, $\Delta E_A$}
+            \end{axis}
+        \end{tikzpicture}
+    \end{subfigure}
+    \begin{subfigure} {0.5\textwidth}
+        \begin{tikzpicture}    
+            \begin{axis}[
+                xmin = 0, xmax = 360,
+                width = 0.9\textwidth,
+                xlabel = {$\alpha$, град},
+                ylabel = {$\Delta E_A\%$, \%},
+                legend pos = {south west},
+            ]
+                \addplot table[x = deg, y = deltaAproc] {data/Sin500.dat};
+            \end{axis}
+        \end{tikzpicture}
+    \end{subfigure}
+    \caption{Характеристики синусной обмотки при нагрузке $R = 500$ Ом}
+\end{figure}
+
+\begin{minipage} {0.5\textwidth}
+    \begin{table}[H]
+        \centering
+        \begin{threeparttable}
+            \pgfplotstabletypeset[
+                columns/deg/.style = {column name = {$\alpha$}},
+                columns/Ea/.style = {column name = {$E_A$}},
+                columns/Ea0/.style = {column name = {$E_{A0}$}},
+                columns/deltaA/.style = {column name = {$\Delta E_{A}$}},
+                columns/deltaAproc/.style = {column name =  {$\Delta E_{A}\%$}},
+            ]{data/Sin303.dat}
+        \caption{Данные при $R = 300$ Ом}
+        \end{threeparttable}
+    \end{table}
+\end{minipage}
+\begin{minipage} {0.5\textwidth}
+    \begin{table}[H]
+        \centering
+        \begin{threeparttable}
+            \pgfplotstabletypeset[
+                columns/deg/.style = {column name = {$\alpha$}},
+                columns/Ea/.style = {column name = {$E_A$}},
+                columns/Ea0/.style = {column name = {$E_{A0}$}},
+                columns/deltaA/.style = {column name = {$\Delta E_{A}$}},
+                columns/deltaAproc/.style = {column name =  {$\Delta E_{A}\%$}},
+            ]{data/Sin500.dat}
+        \caption{Данные при $R = 500$ Ом}
+        \end{threeparttable}
+    \end{table}
+\end{minipage}
+
+\subsection*{Характеристика косинусной обмотки при нагрузке}
+Ниже представлены графики, полученные в результате не сложных вычислений, а также с синусной обмотки ВТ. Графики 4 и 5, были построены на основе таблиц 4 и 5.
+
+\begin{figure} [h!]
+    \begin{subfigure} {0.5\textwidth}
+        \begin{tikzpicture}    
+            \begin{axis}[
+                xmin = 0, xmax = 360,
+                width = 0.9\textwidth,
+                xlabel = {$\alpha$, град},
+                ylabel = {Вольты},
+                legend pos = {south west},
+            ]
+                \addplot table[x = deg, y = Eb] {data/Cos315.dat};
+                \addplot table[x = deg, y = Eb0] {data/Cos315.dat};
+                \addplot table[x = deg, y = deltaB] {data/Cos315.dat};
+
+                \legend{$E_B$, $E_{B0}$, $\Delta E_B$}
+            \end{axis}
+        \end{tikzpicture}
+    \end{subfigure}
+    \begin{subfigure} {0.5\textwidth}
+        \begin{tikzpicture}    
+            \begin{axis}[
+                xmin = 0, xmax = 360,
+                width = 0.9\textwidth,
+                xlabel = {$\alpha$, град},
+                ylabel = {$\Delta E_B\%$, \%},
+                legend pos = {south west},
+            ]
+                \addplot table[x = deg, y = deltaBproc] {data/Cos315.dat};
+            \end{axis}
+        \end{tikzpicture}
+    \end{subfigure}
+    \caption{Характеристики синусной обмотки при нагрузке $R = 300$ Ом}
+\end{figure}
+
+\begin{figure} [h!]
+    \begin{subfigure} {0.5\textwidth}
+        \begin{tikzpicture}    
+            \begin{axis}[
+                xmin = 0, xmax = 360,
+                width = 0.9\textwidth,
+                xlabel = {$\alpha$, град},
+                ylabel = {Вольты},
+                legend pos = {south west},
+            ]
+                \addplot table[x = deg, y = Eb] {data/Cos510.dat};
+                \addplot table[x = deg, y = Eb0] {data/Cos510.dat};
+                \addplot table[x = deg, y = deltaB] {data/Cos510.dat};
+
+                \legend{$E_B$, $E_{B0}$, $\Delta E_B$}
+            \end{axis}
+        \end{tikzpicture}
+    \end{subfigure}
+    \begin{subfigure} {0.5\textwidth}
+        \begin{tikzpicture}    
+            \begin{axis}[
+                xmin = 0, xmax = 360,
+                width = 0.9\textwidth,
+                xlabel = {$\alpha$, град},
+                ylabel = {$\Delta E_B\%$, \%},
+                legend pos = {south west},
+            ]
+                \addplot table[x = deg, y = deltaBproc] {data/Cos510.dat};
+            \end{axis}
+        \end{tikzpicture}
+    \end{subfigure}
+    \caption{Характеристики косинусной обмотки при нагрузке $R = 500$ Ом}
+\end{figure}
+
+\begin{minipage} {0.5\textwidth}
+    \begin{table}[H]
+        \centering
+        \begin{threeparttable}
+            \pgfplotstabletypeset[
+                columns/deg/.style = {column name = {$\alpha$}},
+                columns/Eb/.style = {column name = {$E_B$}},
+                columns/Eb0/.style = {column name = {$E_{B0}$}},
+                columns/deltaB/.style = {column name = {$\Delta E_{B}$}},
+                columns/deltaBproc/.style = {column name =  {$\Delta E_{B}\%$}},
+            ]{data/Cos315.dat}
+        \caption{Данные при $R = 300$ Ом}
+        \end{threeparttable}
+    \end{table}
+\end{minipage}
+\begin{minipage} {0.5\textwidth}
+    \begin{table}[H]
+        \centering
+        \begin{threeparttable}
+            \pgfplotstabletypeset[
+                columns/deg/.style = {column name = {$\alpha$}},
+                columns/Eb/.style = {column name = {$E_B$}},
+                columns/Eb0/.style = {column name = {$E_{B0}$}},
+                columns/deltaB/.style = {column name = {$\Delta E_{B}$}},
+                columns/deltaBproc/.style = {column name =  {$\Delta E_{B}\%$}},
+            ]{data/Cos510.dat}
+        \caption{Данные при $R = 500$ Ом}
+        \end{threeparttable}
+    \end{table}
+\end{minipage}
+
+\subsection*{Характеристики ВТ при вторичном симметрировании}
+\begin{figure} [h!]
+    \begin{subfigure} {0.5\textwidth}
+        \begin{tikzpicture}    
+            \begin{axis}[
+                xmin = 0, xmax = 315,
+                width = 0.9\textwidth,
+                xlabel = {$\alpha$, град},
+                ylabel = {Вольты},
+                legend pos = {south west},
+            ]
+                \addplot table[x = deg, y = Ea] {data/SecondSimetr.dat};
+                \addplot table[x = deg, y = Ea0] {data/SecondSimetr.dat};
+                \addplot table[x = deg, y = deltaA] {data/SecondSimetr.dat};
+
+                \legend{$E_A$, $E_{A0}$, $\Delta E_A$}
+            \end{axis}
+        \end{tikzpicture}
+    \end{subfigure}
+    \begin{subfigure} {0.5\textwidth}
+        \begin{tikzpicture}    
+            \begin{axis}[
+                xmin = 0, xmax = 315,
+                width = 0.9\textwidth,
+                xlabel = {$\alpha$, град},
+                ylabel = {$\Delta E_A\%$, \%},
+                legend pos = {south west},
+            ]
+                \addplot table[x = deg, y = deltaAproc] {data/SecondSimetr.dat};
+            \end{axis}
+        \end{tikzpicture}
+    \end{subfigure}
+    \caption{Характеристики синусной обмотки при нагрузке $R = 1$ кОм}
+\end{figure}
+\newpage
+\begin{table}[h!]
+    \centering
+    \begin{threeparttable}
+        \pgfplotstabletypeset[
+            columns/deg/.style = {column name = {$\alpha$}},
+            columns/Eb/.style = {column name = {$E_B$}},
+            columns/Eb0/.style = {column name = {$E_{B0}$}},
+            columns/deltaB/.style = {column name = {$\Delta E_{B}$}},
+            columns/deltaBproc/.style = {column name =  {$\Delta E_{B}\%$}},
+        ]{data/Cos510.dat}
+        \caption{Данные при $R = 1$ кОм}
+    \end{threeparttable}
+\end{table}
+
+\section*{Потенциометрический датчик угла поворота}
+\subsection*{Характеристика холостого хода}
+
+\begin{minipage}[t] {0.5\textwidth}
+    \begin{figure}[H]
+        \begin{tikzpicture}
+            \begin{axis}[
+                width = 0.9\textwidth,
+                xmin = 0, xmax = 360,
+                xlabel = {$\alpha$, град},
+                ylabel = {$U_\text{вых}$, В},
+                legend pos = {south west},
+            ]
+                \addplot table[x = deg1, y = U1] {data/PotensTrans.dat};
+                \addplot table[x = deg2, y = U2] {data/PotensTrans.dat};
+
+                \legend{По часовой, Против часовой}
+            \end{axis}
+        \end{tikzpicture}
+        \caption{Характеристика хаолостого хода}
+    \end{figure}
+\end{minipage}
+\begin{minipage}[t] {0.4\textwidth}
+    \begin{table}[H]
+        \centering
+        \begin{threeparttable}
+            \pgfplotstabletypeset[
+                columns/deg1/.style = {column name = {$\alpha$}},
+                columns/U1/.style = {column name = {$U_\text{вых}$}},
+                columns/deg2/.style = {column name = {$\alpha$}},
+                columns/U2/.style = {column name = {$U_\text{вых}$}},
+            ]{data/PotensTrans.dat}
+        \caption{Исходные данные}
+        \end{threeparttable}
+    \end{table}
+\end{minipage}
+
+\newpage
+\subsection*{Характеристики однотактного потенциометрического
+датчика угла поворота под нагрузкой}
+\begin{figure}[h!]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+            width = 0.7\textwidth,
+            xmin = 0, xmax = 360, ymin = 0,
+            xlabel = {$\alpha$, град},
+            ylabel = {$U_\text{вых}$, В},
+            legend pos = {north east},
+        ]
+            \addplot[blue, mark = *, dashed] table[x = deg1, y = U1n] {data/PotensTransR.dat};
+            \addplot[blue, mark = *, dashed] table[x = deg2, y = U1p] {data/PotensTransR.dat};
+            \addplot[black, mark = o, dotted, thick] table[x = deg1, y = U2n] {data/PotensTransR.dat};
+            \addplot[black, mark = o, dotted, thick] table[x = deg2, y = U2p] {data/PotensTransR.dat};
+            \addplot[red, mark = x] table[x = deg1, y = U3n] {data/PotensTransR.dat};
+            \addplot[red, mark = x] table[x = deg2, y = U3p] {data/PotensTransR.dat};
+
+            \legend{R = 250, , R = 500, ,R = 1000}
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Характеристики при различных сопротивлениях}
+\end{figure}
+\begin{table}[h!]
+    \centering
+    \begin{threeparttable}
+        \pgfplotstabletypeset[
+            columns/deg1/.style = {column name = {$\alpha$}},
+            columns/U1n/.style = {column name = {$U_\text{вых}$}},
+            columns/deg2/.style = {column name = {$\alpha$}},
+            columns/U1p/.style = {column name = {$U_\text{вых}$}},
+            columns/deg3/.style = {column name = {$\alpha$}},
+            columns/U2n/.style = {column name = {$U_\text{вых}$}},
+            columns/deg4/.style = {column name = {$\alpha$}},
+            columns/U2p/.style = {column name = {$U_\text{вых}$}},
+            columns/deg5/.style = {column name = {$\alpha$}},
+            columns/U3n/.style = {column name = {$U_\text{вых}$}},
+            columns/deg6/.style = {column name = {$\alpha$}},
+            columns/U3p/.style = {column name = {$U_\text{вых}$}},
+        ]{data/table.dat}
+    \caption{Исходные данные}
+    \end{threeparttable}
+\end{table}
+
+\section*{Вывод}
+В данной работе мы исследовали характеристики трех датчиков углового перемещения: потенциометрического, вращающегося трансформатора, инкриментального энкодера. У потенциометрического датчика характеристика при повороте по часовой и против часовой отличается. При увеличении сопротивления возростает нелинейность харатеристики. Во вращающемся трансформаторе при увеличении сопротивления - увеличиваетсся выходоне нарпяжение. Синусная и косинусная обмотки ведут себя одинаково.
+\end{document}

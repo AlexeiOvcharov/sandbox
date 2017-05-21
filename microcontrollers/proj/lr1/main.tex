@@ -1,0 +1,73 @@
+\documentclass[a4paper,12pt]{article}
+
+% Creator: MCU 8051 IDE v1.4.7
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{color}
+\title{main.asm}
+\date{03/19/2017}
+
+% define highlighting
+\definecolor{highlight_hex}{rgb}{0.533, 0.0, 0.733}
+\definecolor{highlight_constant}{rgb}{0.333, 0.666, 0.0}
+\definecolor{highlight_unknown_base}{rgb}{0.533, 0.133, 0.133}
+\definecolor{highlight_comment}{rgb}{0.533, 0.533, 0.533}
+\definecolor{highlight_oper_sep}{rgb}{0.866, 0.533, 0.0}
+\definecolor{highlight_directive}{rgb}{0.533, 0.533, 1.0}
+\definecolor{highlight_instruction}{rgb}{0.0, 0.0, 1.0}
+\definecolor{highlight_sfr}{rgb}{0.0, 0.0, 0.866}
+\definecolor{highlight_imm_unknown}{rgb}{0.666, 0.2, 0.2}
+
+
+\begin{document}
+\ \\
+{\color{highlight_comment}\verb'; Адрес регистра переменной X'}\\
+{\color{highlight_constant}\verb'VALXL'}\verb' '{\color{highlight_directive}\verb'EQU'}\verb' '{\color{highlight_hex}\verb'10h'}\\
+{\color{highlight_constant}\verb'VALXH'}\verb' '{\color{highlight_directive}\verb'EQU'}\verb' '{\color{highlight_hex}\verb'11h'}\\
+{\color{highlight_comment}\verb'; Адрес регистра переменной Z'}\\
+{\color{highlight_constant}\verb'VALZL'}\verb' '{\color{highlight_directive}\verb'EQU'}\verb' '{\color{highlight_hex}\verb'35h'}\\
+{\color{highlight_constant}\verb'VALZH'}\verb' '{\color{highlight_directive}\verb'EQU'}\verb' '{\color{highlight_hex}\verb'36h'}\\
+\verb''\\
+{\color{highlight_directive}\verb'org'}\verb' '{\color{highlight_unknown_base}\verb'0'}\\
+{\color{highlight_instruction}\verb'ajmp'}\verb' '{\color{highlight_hex}\verb'30h'}\\
+{\color{highlight_directive}\verb'org'}\verb' '{\color{highlight_hex}\verb'30h'}\\
+\verb''\\
+{\color{highlight_instruction}\verb'mov'}\verb' '{\color{highlight_constant}\verb'VALXL'}{\color{highlight_oper_sep}\verb','}{\color{highlight_imm_unknown}\verb'#16'}\\
+{\color{highlight_instruction}\verb'mov'}\verb' '{\color{highlight_constant}\verb'VALXH'}{\color{highlight_oper_sep}\verb','}{\color{highlight_imm_unknown}\verb'#4'}\\
+\verb''\\
+{\color{highlight_instruction}\verb'mov'}\verb' '{\color{highlight_constant}\verb'VALZL'}{\color{highlight_oper_sep}\verb','}{\color{highlight_imm_unknown}\verb'#100'}\\
+\verb''\\
+{\color{highlight_comment}\verb'; Умножаем младший байт на 6'}\\
+{\color{highlight_instruction}\verb'mov'}\verb' '{\color{highlight_sfr}\verb'A'}{\color{highlight_oper_sep}\verb','}{\color{highlight_constant}\verb'VALXL'}\\
+{\color{highlight_instruction}\verb'mov'}\verb' '{\color{highlight_sfr}\verb'B'}{\color{highlight_oper_sep}\verb','}{\color{highlight_imm_unknown}\verb'#6'}\\
+{\color{highlight_instruction}\verb'mul'}\verb' '{\color{highlight_sfr}\verb'AB'}\\
+\verb''\\
+{\color{highlight_comment}\verb'; Cохраняем результат с учетом переполнения'}\\
+{\color{highlight_instruction}\verb'addc'}\verb' '{\color{highlight_sfr}\verb'A'}{\color{highlight_oper_sep}\verb','}{\color{highlight_constant}\verb'VALZL'}\\
+{\color{highlight_instruction}\verb'mov'}\verb' '{\color{highlight_constant}\verb'VALZL'}{\color{highlight_oper_sep}\verb','}{\color{highlight_sfr}\verb'A'}\\
+{\color{highlight_instruction}\verb'mov'}\verb' '{\color{highlight_sfr}\verb'A'}{\color{highlight_oper_sep}\verb','}{\color{highlight_imm_unknown}\verb'#0'}\\
+{\color{highlight_instruction}\verb'addc'}\verb' '{\color{highlight_sfr}\verb'A'}{\color{highlight_oper_sep}\verb','}{\color{highlight_imm_unknown}\verb'#0'}\\
+{\color{highlight_instruction}\verb'add'}\verb' '{\color{highlight_sfr}\verb'A'}{\color{highlight_oper_sep}\verb','}{\color{highlight_sfr}\verb'B'}\\
+{\color{highlight_instruction}\verb'mov'}\verb' '{\color{highlight_constant}\verb'VALZH'}{\color{highlight_oper_sep}\verb','}{\color{highlight_sfr}\verb'A'}\\
+\verb''\\
+{\color{highlight_comment}\verb'; Умножаем старший байт на 100'}\\
+{\color{highlight_instruction}\verb'mov'}\verb' '{\color{highlight_sfr}\verb'A'}{\color{highlight_oper_sep}\verb','}{\color{highlight_constant}\verb'VALXH'}\\
+{\color{highlight_instruction}\verb'mov'}\verb' '{\color{highlight_sfr}\verb'B'}{\color{highlight_oper_sep}\verb','}{\color{highlight_imm_unknown}\verb'#6'}\\
+{\color{highlight_instruction}\verb'mul'}\verb' '{\color{highlight_sfr}\verb'AB'}\\
+\verb''\\
+{\color{highlight_instruction}\verb'add'}\verb' '{\color{highlight_sfr}\verb'A'}{\color{highlight_oper_sep}\verb','}{\color{highlight_constant}\verb'VALZH'}\\
+{\color{highlight_instruction}\verb'mov'}\verb' '{\color{highlight_constant}\verb'VALZH'}{\color{highlight_oper_sep}\verb','}{\color{highlight_sfr}\verb'A'}\\
+\verb''\\
+{\color{highlight_comment}\verb'; Инвертируем полученное значение'}\\
+{\color{highlight_instruction}\verb'mov'}\verb' '{\color{highlight_sfr}\verb'A'}{\color{highlight_oper_sep}\verb','}{\color{highlight_imm_unknown}\verb'#0'}\\
+{\color{highlight_instruction}\verb'subb'}\verb' '{\color{highlight_sfr}\verb'A'}{\color{highlight_oper_sep}\verb','}{\color{highlight_constant}\verb'VALZL'}\\
+{\color{highlight_instruction}\verb'mov'}\verb' '{\color{highlight_constant}\verb'VALZL'}{\color{highlight_oper_sep}\verb','}{\color{highlight_sfr}\verb'A'}\\
+\verb''\\
+{\color{highlight_instruction}\verb'mov'}\verb' '{\color{highlight_sfr}\verb'A'}{\color{highlight_oper_sep}\verb','}{\color{highlight_imm_unknown}\verb'#0'}\\
+{\color{highlight_instruction}\verb'subb'}\verb' '{\color{highlight_sfr}\verb'A'}{\color{highlight_oper_sep}\verb','}{\color{highlight_constant}\verb'VALZH'}\\
+{\color{highlight_instruction}\verb'mov'}\verb' '{\color{highlight_constant}\verb'VALZH'}{\color{highlight_oper_sep}\verb','}{\color{highlight_sfr}\verb'A'}\\
+\verb''\\
+{\color{highlight_directive}\verb'END'}\\
+\verb''\\
+\end{document}
