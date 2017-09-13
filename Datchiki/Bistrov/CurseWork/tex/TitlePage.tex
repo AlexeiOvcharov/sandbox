@@ -1,41 +1,60 @@
-\documentclass[a4paper, 11pt]{article}
+\documentclass[a4paper, 12pt]{article}
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1, T2A]{fontenc}
 \usepackage[english, russian]{babel}
-\usepackage[top=2cm, bottom=2cm, left=1cm, right=1cm]{geometry}
+\usepackage[top=2cm, bottom=2cm, left=2cm, right=2cm]{geometry}
 
 \usepackage{amsmath}
+\usepackage{pscyr}
+\usepackage{calc}
 
-\newcommand*{\tline}[2]{$\underset{\text{#1}}{\text{\underline{\hspace{#2}}}}$}
+\def \CourseTitle{\fontsize{14pt}{5cm}\selectfont Устройство для измерения плотности жидкости}
+\def \AuthorName{Овчаров А. О.}
+
+\newlength{\TitleTextWidth}
+\settowidth{\TitleTextWidth}{\CourseTitle}
+
+\newlength{\OffsetSize}
+\setlength{\OffsetSize}{(0.9\textwidth - \TitleTextWidth)/2}
+
+
+\newcommand*{\tline}[3]{$\underset{\text{#1}}{\text{\underline{\hspace{5pt}\text{#2}\hspace{#3}}}}$}
 
 \begin{document}
 \begin{titlepage}
     \centering
-    {\fontsize{12pt}{5cm}\selectfont \bfseries Министерство образования и науки Российской Федерации} \\ \vspace{0.5cm}
-    {\fontsize{5pt}{5cm}\selectfont ФЕДЕРАЛЬНОЕ ГОСУДАРСТВЕННОЕ АВТОНОМНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ ВЫСШЕГО ПРОФЕССИОНАЛЬНОГО ОБРАЗОВАНИЯ} \\ 
-    \vspace{1cm}
-    {\fontsize{10pt}{5cm}\selectfont \bfseries САНКТ-ПЕТЕРБУРГСКИЙ УНИВЕРСИТЕТ ИНФОРМАЦИОННЫХ ТЕХНОЛОГИЙ, МЕХАНИКИ И ОПТИКИ} \\ \vspace{1.5cm}
+    {\fontsize{13pt}{5cm}\selectfont \bfseries Министерство образования и науки Российской Федерации} \\ \vspace{15pt}
+    {\fontsize{8pt}{5cm}\selectfont ФЕДЕРАЛЬНОЕ ГОСУДАРСТВЕННОЕ АВТОНОМНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ ВЫСШЕГО ОБРАЗОВАНИЯ} \\ 
+    \vspace{10pt}
+    {\fontsize{13pt}{1pt}\selectfont \bfseries “САНКТ-ПЕТЕРБУРГСКИЙ НАЦИОНАЛЬНЫЙ ИССЛЕДОВАТЕЛЬСКИЙ \\
+     УНИВЕРСИТЕТ ИНФОРМАЦИОННЫХ ТЕХНОЛОГИЙ,\\
+     МЕХАНИКИ И ОПТИКИ”} \\ \vspace{1.5cm}	
 
     {\fontsize{14pt}{5cm}\selectfont Кафедра \hspace{1cm} \underline{Систем Управления и Информатики}  \hspace{1cm} Группа \underline{Р3340}} \\ 
-    \vspace{2cm}
+    \vspace{3cm}
 
-    {\fontsize{20pt}{5cm}\selectfont \bfseries Курсовой проект по курсу} \\
-    {\fontsize{20pt}{5cm}\selectfont \bfseries Теория управления} \\
-    {\fontsize{14pt}{5cm}\selectfont Вариант - 67} \\
+    {\fontsize{20pt}{5cm}\selectfont ПОЯСНИТЕЛЬНАЯ ЗАПИСКА} \\
+    \vspace{4pt}
+    {\fontsize{18pt}{5cm}\selectfont к курсовому проекту} \\
     \vspace{1.5cm}
 
-    \flushleft
-
-    {Выполнил \hspace{2cm} \tline{(фамилия, и.о.)}{9cm} (подпись)} \\
-    \vspace{2cm}
-
-    {Проверил \hspace{2cm} \tline{(фамилия, и.о.)}{9cm} (подпись)} \\
-    \vspace{5cm}
-
-    "\underline{\hspace{0.7cm}}"\hspace{0.2cm}\underline{\hspace{2cm}}\hspace{0.2cm}20\underline{\hspace{0.7cm}}г. \hspace{2cm} Санкт-Петербург, \hspace{2cm} 20\underline{\hspace{0.7cm}}г. \\ \vspace{1cm}
-
-    Работа выполнена с оценкой \hspace{1cm} \underline{\hspace{8cm}} \\ 
+	\begin{minipage}{0.9\textwidth}
+	\flushleft \fontsize{14pt}{2pt}\selectfont
+	\underline{\hspace{1pt}\hspace{\OffsetSize}\CourseTitle\hspace{\OffsetSize}\hspace{1pt}} \\ \vspace{20pt}
+	\underline{\hspace{\textwidth}} \\
+    \vspace{0.5cm}
+	{Автор курсового проекта \hfill \tline{\fontsize{12pt}{5cm}\selectfont (фамилия, и.о.)}{\AuthorName}{3cm} (подпись)}
+	{Руководитель \hfill \tline{\fontsize{12pt}{5cm}\selectfont (фамилия, и.о.)}{Быстров С. В.}{3cm} (подпись)} \\
+	\vspace{1cm}
+	"\underline{\hspace{0.7cm}}"\hspace{0.2cm}\underline{\hspace{2cm}}\hspace{0.2cm}20\underline{\hspace{0.7cm}}г. \hspace{2cm} Санкт-Петербург, \hspace{2cm} 20\underline{\hspace{0.7cm}}г. \\ \vspace{1cm}
+	\end{minipage}
+  
+  	\vfill
+  
+  	\flushleft \fontsize{14pt}{2pt}\selectfont
+  	
+	Работа выполнена с оценкой \hspace{1cm} \underline{\hspace{8cm}} \\ 
     \vspace{1cm}
     Дата защиты "\underline{\hspace{0.7cm}}"\hspace{0.2cm}\underline{\hspace{2cm}}\hspace{0.2cm}20\underline{\hspace{0.7cm}}г.
 \end{titlepage}
